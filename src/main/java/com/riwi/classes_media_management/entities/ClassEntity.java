@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "students")
-public class Student {
+@Table(name = "classes")
+public class ClassEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +22,6 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private Boolean active;
-
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inscription> inscriptions;
+    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lesson> lessons;
 }

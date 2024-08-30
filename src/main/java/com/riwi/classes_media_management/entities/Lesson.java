@@ -1,19 +1,19 @@
 package com.riwi.classes_media_management.entities;
 
+import com.riwi.classes_media_management.enums.MediaTypes;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "students")
-public class Student {
+@Table(name = "lessons")
+public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +22,20 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MediaTypes mediaType;
+
+    @Column(nullable = true)
+    private String content;
+
+    @Column(nullable = true)
+    private String url;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id", nullable = false)
+    private ClassEntity classEntity;
 
     @Column(nullable = false)
     private Boolean active;
-
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inscription> inscriptions;
 }
