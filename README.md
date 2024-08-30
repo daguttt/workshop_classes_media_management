@@ -1,4 +1,6 @@
 # Classes Media Management API REST
+## Workshop Wording
+[Spring Boot Week - 3](https://discord.com/channels/1253409081486610494/1276323023544254524/1276323023544254524) (OneDrive).
 
 ## Project Setup
 
