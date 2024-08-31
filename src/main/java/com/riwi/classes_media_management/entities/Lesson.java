@@ -26,7 +26,8 @@ public class Lesson {
     @Column(nullable = false)
     private MediaTypes mediaType;
 
-    @Column(nullable = true)
+    @Lob
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable = true)
