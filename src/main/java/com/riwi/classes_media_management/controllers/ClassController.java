@@ -21,7 +21,7 @@ public class ClassController {
         this.classService = classService;
     }
 
-    @GetMapping("/active")
+    @GetMapping
     public ResponseEntity<List<ClassDTO>> getActiveClasses() {
         List<ClassDTO> activeClasses = classService.getAllActiveClasses();
         return new ResponseEntity<>(activeClasses, HttpStatus.OK);
