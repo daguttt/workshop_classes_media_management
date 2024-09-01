@@ -22,8 +22,9 @@ public class ClassEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private boolean active;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    @Builder.Default
+    private boolean active = true;
 
     @Column(nullable = false)
     private String description;
