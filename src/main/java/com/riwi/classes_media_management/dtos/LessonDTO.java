@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -19,8 +19,7 @@ public class LessonDTO {
 
     private String content;
 
-    @URL(message = "Url needs to be valid")
-    private String url;
+    private MultipartFile file;
 
     @NotNull(message = "Class ID cannot be null")
     private Long classId;
