@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +23,19 @@ public class ClassController {
         this.classService = classService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/active")
     public ResponseEntity<List<ClassDTO>> getActiveClasses() {
         List<ClassDTO> activeClasses = classService.getAllActiveClasses();
         return new ResponseEntity<>(activeClasses, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClassDTO> getClassById(@PathVariable Long id) {
+        ClassDTO classDTO = classService.getClassById(id);
+        if (classDTO != null) {
+            return new ResponseEntity<>(classDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
