@@ -1,0 +1,30 @@
+package com.riwi.classes_media_management.controllers;
+
+import com.riwi.classes_media_management.dtos.ClassDTO;
+import com.riwi.classes_media_management.services.ClassService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/class")
+public class ClassController {
+
+    private final ClassService classService;
+
+    @Autowired
+    public ClassController(ClassService classService) {
+        this.classService = classService;
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ClassDTO>> getActiveClasses() {
+        List<ClassDTO> activeClasses = classService.getAllActiveClasses();
+        return new ResponseEntity<>(activeClasses, HttpStatus.OK);
+    }
+}
