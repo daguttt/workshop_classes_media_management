@@ -37,6 +37,7 @@ public class Lesson {
     @JoinColumn(name = "class_id", nullable = false)
     private ClassEntity classEntity;
 
-    @Column(nullable = false)
-    private Boolean active;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    @Builder.Default
+    private Boolean active = true;
 }
