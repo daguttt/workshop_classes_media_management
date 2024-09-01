@@ -3,7 +3,6 @@ package com.riwi.classes_media_management.services;
 import com.riwi.classes_media_management.dtos.ClassDTO;
 import com.riwi.classes_media_management.entities.ClassEntity;
 import com.riwi.classes_media_management.repositories.ClassRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public class ClassService {
 
     private final ClassRepository classRepository;
 
-    @Autowired
     public ClassService(ClassRepository classRepository) {
         this.classRepository = classRepository;
     }
@@ -33,9 +31,9 @@ public class ClassService {
     public ClassDTO getClassById(Long id) {
         Optional<ClassEntity> classEntityOptional = classRepository.findById(id);
         return classEntityOptional.map(classEntity -> ClassDTO.builder()
-                        .name(classEntity.getName())
-                        .description(classEntity.getDescription())
-                        .build())
+                .name(classEntity.getName())
+                .description(classEntity.getDescription())
+                .build())
                 .orElse(null);
     }
 
