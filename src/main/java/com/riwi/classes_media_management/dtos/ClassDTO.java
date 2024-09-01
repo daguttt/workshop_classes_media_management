@@ -12,4 +12,6 @@ public class ClassDTO {
     @NotBlank(message = "Name cannot be blank")
     private String name;
 
+    @NotBlank(message = "description cannot be blank")
+    private String description;
 }

@@ -22,6 +22,12 @@ public class ClassEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private boolean active;
+
+    @Column(nullable = false)
+    private String description;
+
     @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
 }
