@@ -38,4 +38,17 @@ public class ClassService {
                         .build())
                 .orElse(null);
     }
+
+    public ClassDTO createClass(ClassDTO classDTO) {
+        ClassEntity classEntity = ClassEntity.builder()
+                .name(classDTO.getName())
+                .description(classDTO.getDescription())
+                .active(true)
+                .build();
+        ClassEntity savedClassEntity = classRepository.save(classEntity);
+        return ClassDTO.builder()
+                .name(savedClassEntity.getName())
+                .description(savedClassEntity.getDescription())
+                .build();
+    }
 }
