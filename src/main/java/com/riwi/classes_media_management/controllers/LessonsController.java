@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @RestController
-@RequestMapping("/lessons")
+@RequestMapping("/api/v1/lessons")
 public class LessonsController {
 
   @Autowired
