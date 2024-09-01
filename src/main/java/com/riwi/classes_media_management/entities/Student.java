@@ -25,11 +25,11 @@ public class Student {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private Boolean active;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    @Builder.Default
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inscription> inscriptions;
-
 
 }
