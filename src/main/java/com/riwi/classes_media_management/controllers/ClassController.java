@@ -2,6 +2,9 @@ package com.riwi.classes_media_management.controllers;
 
 import com.riwi.classes_media_management.dtos.ClassDTO;
 import com.riwi.classes_media_management.services.ClassService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +38,7 @@ public class ClassController {
     }
 
     @PostMapping
-    public ResponseEntity<ClassDTO> createClass(@RequestBody ClassDTO classDTO) {
+    public ResponseEntity<ClassDTO> createClass(@Valid @RequestBody ClassDTO classDTO) {
         ClassDTO createdClassDTO = classService.createClass(classDTO);
         return new ResponseEntity<>(createdClassDTO, HttpStatus.CREATED);
     }
