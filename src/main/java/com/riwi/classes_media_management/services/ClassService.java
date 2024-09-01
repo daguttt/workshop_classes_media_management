@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,5 +28,14 @@ public class ClassService {
                         .description(classEntity.getDescription())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public ClassDTO getClassById(Long id) {
+        Optional<ClassEntity> classEntityOptional = classRepository.findById(id);
+        return classEntityOptional.map(classEntity -> ClassDTO.builder()
+                        .name(classEntity.getName())
+                        .description(classEntity.getDescription())
+                        .build())
+                .orElse(null);
     }
 }
