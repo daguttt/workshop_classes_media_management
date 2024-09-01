@@ -4,7 +4,6 @@ import com.riwi.classes_media_management.dtos.StudentDTO;
 import com.riwi.classes_media_management.entities.Student;
 import com.riwi.classes_media_management.repositories.StudentsRepository;
 import com.riwi.classes_media_management.services.StudentsService;
-import com.riwi.classes_media_management.services.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +30,11 @@ public class StudentsServiceImpl implements StudentsService {
     @Override
     public Optional<Student> getStudentById(Long id) {
         return studentRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Student> getStudentByname(String name) {
+        return Optional.empty();
     }
 
     @Override
@@ -62,4 +66,3 @@ public class StudentsServiceImpl implements StudentsService {
         }
     }
 }
-

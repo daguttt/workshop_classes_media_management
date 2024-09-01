@@ -11,7 +11,7 @@ public interface StudentsService {
     Student createStudent(StudentDTO studentDTO);
 
     Optional<Student> getStudentById(Long id);
-
+    Optional<Student> getStudentByname(String name);
     Optional<Student> getStudentByEmail(String email);
 
     List<Student> getAllStudents();
