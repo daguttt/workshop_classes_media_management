@@ -1,14 +1,14 @@
 package com.riwi.classes_media_management.dtos;
 
-import lombok.Builder;
 import lombok.Data;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO {
@@ -19,9 +19,5 @@ public class StudentDTO {
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email cannot be blank")
     private String email;
-
-    @NotBlank(message = "Password cannot be blank")
-    private String password;
-
 
 }
