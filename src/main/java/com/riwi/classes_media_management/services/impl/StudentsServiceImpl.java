@@ -1,9 +1,12 @@
 package com.riwi.classes_media_management.services.impl;
 
 import com.riwi.classes_media_management.dtos.StudentDTO;
+import com.riwi.classes_media_management.dtos.StudentResponseDTO;
 import com.riwi.classes_media_management.entities.Student;
 import com.riwi.classes_media_management.repositories.StudentsRepository;
 import com.riwi.classes_media_management.services.StudentsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,9 @@ public class StudentsServiceImpl implements StudentsService {
         this.studentRepository = studentRepository;
     }
 
+    public boolean existsByEmail(String email) {
+        return studentRepository.existsByEmail(email);
+    }
     @Override
     public Student createStudent(StudentDTO studentDTO) {
         Student student = Student.builder()
@@ -55,14 +61,48 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public void updateStudentsStatus(Long id, Boolean active) {
+    public Page<StudentResponseDTO> getAllStudents(Pageable pageable) {
+        return studentRepository.findAll(pageable)
+                .map(this::convertToDTO);
+    }
+
+    @Override
+    public Page<StudentResponseDTO> getAllActiveStudents(Pageable pageable) {
+        return studentRepository.findByActiveTrue(pageable)
+                .map(this::convertToDTO);
+    }
+
+    public StudentResponseDTO updateStudentActiveStatus(Long id, Boolean active) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        student.setActive(active);
+        Student updatedStudent = studentRepository.save(student);
+        return convertToDTO(updateStudent);
+    }
+
+    private StudentsResponseDTO convertToDTO(Students students) {
+        return StudentsResponseDTO.builder()
+                .id(students.getId())
+                .name(students.getName())
+                .email(students.getEmail())
+                .active(students.getActive())
+                .build();
+    }
+
+    @Override
+    public Student updateStudentsStatus(Long id, Boolean active) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
             student.setActive(active);
             studentRepository.save(student);
+            return student;
         } else {
             throw new IllegalArgumentException("Student not found with id: " + id);
         }
+
     }
+
+
+
 }

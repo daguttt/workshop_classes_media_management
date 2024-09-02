@@ -1,9 +1,12 @@
 package com.riwi.classes_media_management.controllers;
 
 import com.riwi.classes_media_management.dtos.StudentDTO;
+import com.riwi.classes_media_management.dtos.StudentResponseDTO;
 import com.riwi.classes_media_management.entities.Student;
 import com.riwi.classes_media_management.services.StudentsService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,12 @@ public class StudentsController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        Student createdStudent = studentsService.createStudent(studentDTO);
-        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+    public ResponseEntity<String> createStudent(@RequestBody StudentDTO student) {
+        if (studentsService.existsByEmail(student.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+        }
+        studentsService.createStudent(student); // Asume que tienes un método para crear el estudiante
+        return ResponseEntity.status(HttpStatus.CREATED).body("Student created successfully");
     }
 
     @GetMapping("/{id}")
@@ -57,5 +63,23 @@ public class StudentsController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<StudentResponseDTO> updateStudentActiveStatus(@PathVariable Long id, @RequestParam Boolean active) {
+        StudentResponseDTO updatedStudent = studentsService.updateStudentActiveStatus(id, active);
+        return ResponseEntity.ok(updatedStudent);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<Page<StudentResponseDTO>> getAllStudents(Pageable pageable) {
+        Page<StudentResponseDTO> studentsPage = studentsService.getAllStudents(pageable);
+        return ResponseEntity.ok(studentsPage);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<Page<StudentResponseDTO>> getAllActiveStudents(Pageable pageable) {
+        Page<StudentResponseDTO> activeStudentsPage = studentsService.getAllActiveStudents(pageable);
+        return ResponseEntity.ok(activeStudentsPage);
     }
 }

@@ -1,16 +1,19 @@
 package com.riwi.classes_media_management.dtos;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@SuperBuilder
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentResponseDTO extends StudentDTO {
+public class StudentResponseDTO {
+
   private Long id;
+  private String name;
+  private String email;
+  private Boolean active;
+
 }
