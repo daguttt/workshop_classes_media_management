@@ -37,10 +37,10 @@ public class LessonsController {
       @ApiResponse(responseCode = "201", description = "Lesson successfully created", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = LessonReponseDTO.class))
       }),
-      @ApiResponse(responseCode = "404", description = "`classId` not found", content = {
+      @ApiResponse(responseCode = "400", description = "Invalid file format", content = {
           @Content(mediaType = "application/json")
       }),
-      @ApiResponse(responseCode = "400", description = "Invalid file format", content = {
+      @ApiResponse(responseCode = "404", description = "`classId` not found", content = {
           @Content(mediaType = "application/json")
       }),
   })
@@ -54,11 +54,27 @@ public class LessonsController {
     return ResponseEntity.status(HttpStatus.CREATED).body(this.lessonsService.create(lessonDTO));
   }
 
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Lesson successfully disabled", content = {
+          @Content(mediaType = "application/json", schema = @Schema(implementation = LessonDisabledDTO.class))
+      }),
+      @ApiResponse(responseCode = "404", description = "Lesson's `id` not found", content = {
+          @Content(mediaType = "application/json")
+      }),
+  })
   @PatchMapping("/{id}/disable")
   public ResponseEntity<LessonDisabledDTO> disable(@PathVariable Long id) {
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(this.lessonsService.disable(id));
+    return ResponseEntity.ok(this.lessonsService.disable(id));
   }
 
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Lesson successfully fetched", content = {
+          @Content(mediaType = "application/json", schema = @Schema(implementation = LessonReponseDTO.class))
+      }),
+      @ApiResponse(responseCode = "404", description = "Lesson's `id` not found", content = {
+          @Content(mediaType = "application/json")
+      }),
+  })
   @GetMapping("/{id}")
   public ResponseEntity<LessonReponseDTO> getById(@PathVariable Long id) {
     return ResponseEntity.ok(this.lessonsService.getById(id));
