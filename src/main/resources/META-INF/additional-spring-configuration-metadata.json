@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "spring.static-folder",
+      "type": "java.lang.String",
+      "description": "The folder where static files are stored"
+    }
+  ]
+}
