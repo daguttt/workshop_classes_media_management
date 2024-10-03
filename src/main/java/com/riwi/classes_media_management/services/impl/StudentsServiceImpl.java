@@ -26,12 +26,11 @@ public class StudentsServiceImpl implements StudentsService {
     public boolean existsByEmail(String email) {
         return studentRepository.existsByEmail(email);
     }
+
     @Override
     public Student createStudent(StudentDTO studentDTO) {
-        Student student = Student.builder()
-                .name(studentDTO.getName())
-                .email(studentDTO.getEmail())
-                .active(true) // Asumiendo que un nuevo estudiante está activo por defecto
+        // Asumiendo que un nuevo estudiante es activo por defecto
+        Student student = Student.builder().name(studentDTO.getName()).email(studentDTO.getEmail()).active(true)
                 .build();
         return studentRepository.save(student);
     }
@@ -62,31 +61,24 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public Page<StudentResponseDTO> getAllStudents(Pageable pageable) {
-        return studentRepository.findAll(pageable)
-                .map(this::convertToDTO);
+        return studentRepository.findAll(pageable).map(this::convertToDTO);
     }
 
     @Override
     public Page<StudentResponseDTO> getAllActiveStudents(Pageable pageable) {
-        return studentRepository.findByActiveTrue(pageable)
-                .map(this::convertToDTO);
+        return studentRepository.findByActiveTrue(pageable).map(this::convertToDTO);
     }
 
     public StudentResponseDTO updateStudentActiveStatus(Long id, Boolean active) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
         student.setActive(active);
         Student updatedStudent = studentRepository.save(student);
-        return convertToDTO(updateStudent);
+        return convertToDTO(updatedStudent);
     }
 
-    private StudentsResponseDTO convertToDTO(Students students) {
-        return StudentsResponseDTO.builder()
-                .id(students.getId())
-                .name(students.getName())
-                .email(students.getEmail())
-                .active(students.getActive())
-                .build();
+    private StudentResponseDTO convertToDTO(Student students) {
+        return StudentResponseDTO.builder().id(students.getId()).name(students.getName()).email(students.getEmail())
+                .active(students.getActive()).build();
     }
 
     @Override
@@ -102,7 +94,5 @@ public class StudentsServiceImpl implements StudentsService {
         }
 
     }
-
-
 
 }
